@@ -47,7 +47,8 @@ And make sure to add more proxy than your total number of accounts.
 - Click on point refresh button again 
 - In the network section, look for **getpoint** and Copy Berear token
 
-
+## Support 
+- If you find any error, please submit an issue :) 
 
 
 
