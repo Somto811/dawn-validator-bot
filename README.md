@@ -51,5 +51,6 @@ And make sure to add more proxy than your total number of accounts.
 - If you find any error, please submit an issue :) 
 
 
-
+## Conclusion 
+- I don't know how long session token stays alive, maybe we will find out it together hehe :) 
 
