@@ -1,0 +1,12 @@
+[
+    {
+        "authorization": "Berear token",
+        "email": "email",
+        "name": "name_for_that_account"
+    },
+    {
+        "authorization": "Berear token",
+        "email": "email",
+        "name": "name_for_that_account"
+    }
+]

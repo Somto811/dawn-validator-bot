@@ -1,0 +1,9 @@
+[
+    "socks5://ip:port:username:password",
+    "socks5://ip:port:username:password",
+    "socks5://rp.proxyscrape.com:6060:username:password",
+    "socks5://43.229.217.78:6024:username:password"
+
+]
+
+

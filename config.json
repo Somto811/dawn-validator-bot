@@ -1,0 +1,11 @@
+{
+    "use_proxy": true,
+    "telegram_webhook": false,
+    "telegram_bot_token": "YOUR_BOT_TOKEN",
+    "_comment": "Configuration file does not work for now; wait for future updates.",
+    "_note": [
+        "You must use proxies with authentication.",
+        "I suggest using webshare, for more info visit https://webshare.io.",
+        "You will get 10 free proxies without any credit card."
+    ]
+}
