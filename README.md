@@ -1,8 +1,7 @@
 
 ## The Dawn Validator Bot
 
-![Dawn Validator Bot Screenshot](https://raw.githubusercontent.com/MrTimonM/dawn-validator-bot/main/3.png)
-
+![Dawn Validator Bot Screenshot](https://i.ibb.co.com/gzQP3LS/3.png)
 
 
 
