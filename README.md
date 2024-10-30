@@ -41,8 +41,13 @@ And make sure to add more proxy than your total number of accounts.
 ## Getting Berear Token: 
 - Install extension from here : https://chromewebstore.google.com/detail/dawn-validator-chrome-ext/fpdkjdnhkakefebpekbdhillbhonfjjp?hl=en
 - Sign up with your email and you can use my ref code too **ricsbym0** :) 
-- Click on the refresh arrow beside Total Earning 
 ![point](https://github.com/MrTimonM/dawn-validator-bot/blob/main/1.png)
+- Click on the refresh arrow beside Total Earning 
+- Right Click on mouse and click "Inspect" then go to Network Tab 
+![auth](https://github.com/MrTimonM/dawn-validator-bot/blob/main/2.png)
+- Click on point refresh button again 
+- In the network section, look for **getpoint** and Copy Berear token
+
 
 
 
