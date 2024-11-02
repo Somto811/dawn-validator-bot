@@ -10,8 +10,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from colorama import Fore, Style
 init(autoreset=True)
 
-API_URL_GET_POINTS = 'https://www.aeropres.in/api/atom/v1/userreferral/getpoint?appid=undefined'
-API_URL_KEEP_ALIVE = 'https://www.aeropres.in/chromeapi/dawn/v1/userreward/keepalive?appid=undefined'
+API_URL_GET_POINTS = 'https://www.aeropres.in/api/atom/v1/userreferral/getpoint'
+API_URL_KEEP_ALIVE = 'https://www.aeropres.in/chromeapi/dawn/v1/userreward/keepalive'
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
