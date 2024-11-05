@@ -150,26 +150,28 @@ def process_account(account, proxy):
             logging.error(f"{get_timestamp()} | {Fore.RED}ERROR{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive failed, retrying...")
 
 def main():
-    config = load_config()
-    accounts = load_accounts()
-    proxies = load_proxies()
-    account_proxies = bind_proxy_to_accounts(accounts, proxies)
-    if len(account_proxies) < len(accounts):
-        logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Exiting...")
-        return
-    threads = []
-    for account_index, account in enumerate(accounts):
-        proxy = account_proxies.get(account_index)
-        if proxy:
-            thread = Thread(target=process_account, args=(account, proxy))
-            thread.start()
-            threads.append(thread)
-    for thread in threads:
-        thread.join()
-
-if __name__ == "__main__":
     print(Fore.CYAN + "+--------------------------------------------------+")
     print(Fore.CYAN + "| " + Fore.WHITE + "   The Dawn Validator Bot                        " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "           v1.0.0                                " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/somto811                   " + Fore.CYAN + "|")
     print(Fore.CYAN + "+--------------------------------------------------+                 " + Style.RESET_ALL)
+
+    while True:
+        choice = input("Please select an option:\n1. Start the bot\n2. Exit\n")
+        if choice == '1':
+            config = load_config()
+            accounts = load_accounts()
+            proxies = load_proxies()
+            account_proxies = bind_proxy_to_accounts(accounts, proxies)
+            if len(account_proxies) < len(accounts):
+                logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Exiting...")
+                return
+            threads = []
+            for account_index, account in enumerate(accounts):
+                proxy = account_proxies.get(account_index)
+                if proxy:
+                    thread = Thread(target=process_account, args=(account, proxy))
+                    thread.start()
+                    threads.append(thread)
+            for thread in threads:
+                thread
