@@ -173,4 +173,7 @@ if __name__ == "__main__":
     print(Fore.CYAN + "| " + Fore.WHITE + "   The Dawn Validator Bot                        " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "           v1.0.0                                " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/Somto811                   " + Fore.CYAN + "|")
-    print(Fore
+    print(Fore.CYAN + "+--------------------------------------------------+")
+
+    # Start the bot
+    main()
