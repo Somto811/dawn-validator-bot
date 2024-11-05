@@ -2,22 +2,17 @@ import requests
 import time
 import json
 from threading import Thread
-from colorama import init, Fore, Style
+from colorama import init, Fore
 import logging
 from urllib.parse import urlparse
 import urllib3
-
-# Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-# Initialize colorama
+from colorama import Fore, Style
 init(autoreset=True)
 
-# API URLs
 API_URL_GET_POINTS = 'https://www.aeropres.in/api/atom/v1/userreferral/getpoint'
 API_URL_KEEP_ALIVE = 'https://www.aeropres.in/chromeapi/dawn/v1/userreward/keepalive'
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 def load_config():
@@ -135,7 +130,7 @@ def keep_alive(account, proxy=None, retries=3):
             logging.info(f"{get_timestamp()} | {Fore.GREEN}SUCCESS{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive recorded")
             return True
         else:
-            logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive failed on attempt {attempt + 1}. Response Code: {response.status_code if response else '502 Bad Gateway'}")
+            logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive failed on attempt {attempt + 1}. Response Code: {response.status_code if response else '502 Bad Gatwway'}")
             if attempt < retries - 1:
                 time.sleep(2 ** attempt)
     return False
@@ -150,26 +145,45 @@ def process_account(account, proxy):
             logging.error(f"{get_timestamp()} | {Fore.RED}ERROR{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive failed, retrying...")
 
 def main():
+    config = load_config()
+    accounts = load_accounts()
+    proxies = load_proxies()
+    #logging.info(f"{get_timestamp()} | {Fore.YELLOW} INFO {Fore.RESET} | Total Accounts: {Fore.BLUE} {len(accounts)} {Fore.RESET} | Total Proxies: {Fore.BLUE} {len(proxies)}{Fore.RESET}")
+    account_proxies = bind_proxy_to_accounts(accounts, proxies)
+    if len(account_proxies) < len(accounts):
+        logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Exiting...")
+        return
+    threads = []
+    for account_index, account in enumerate(accounts):
+        proxy = account_proxies.get(account_index)
+        if proxy:
+            thread = Thread(target=process_account, args=(account, proxy))
+            thread.start()
+            threads.append(thread)
+    for thread in threads:
+        thread.join()
+
+if __name__ == "__main__":
     print(Fore.CYAN + "+--------------------------------------------------+")
     print(Fore.CYAN + "| " + Fore.WHITE + "   The Dawn Validator Bot                        " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "           v1.0.0                                " + Fore.CYAN + "|")
-    print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/somto811                   " + Fore.CYAN + "|")
+    print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/MrTimonM                   " + Fore.CYAN + "|")
     print(Fore.CYAN + "+--------------------------------------------------+                 " + Style.RESET_ALL)
 
-    while True:
-        choice = input("Please select an option:\n1. Start the bot\n2. Exit\n")
-        if choice == '1':
-            config = load_config()
-            accounts = load_accounts()
-            proxies = load_proxies()
-            account_proxies = bind_proxy_to_accounts(accounts, proxies)
-            if len(account_proxies) < len(accounts):
-                logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Exiting...")
-                return
-            threads = []
-            for account_index, account in enumerate(accounts):
-                proxy = account_proxies.get(account_index)
-                if proxy:
-                    thread = Thread(target=process_account, args=(account, proxy))
-                    thread.start()
-                    threads.append(thread)
+    print(Fore.GREEN + "Please select an option:")
+    print("1. Start the bot")
+    print("2. Exit" + Style.RESET_ALL)
+    
+
+    choice = input("Enter your choice: ")
+    if choice == "1":
+        accounts = load_accounts()
+        proxies = load_proxies()
+        logging.info(f"{get_timestamp()} | {Fore.YELLOW} INFO {Fore.RESET} | Total Accounts: {Fore.BLUE} {len(accounts)} {Fore.RESET} | Total Proxies: {Fore.BLUE} {len(proxies)}{Fore.RESET}")
+        time.sleep(2)
+        main()
+    elif choice == "2":
+        print(Fore.YELLOW + "Exiting... Goodbye! :D" + Style.RESET_ALL)
+    else:
+        print(Fore.RED + "Invalid choice. Exiting..." + Style.RESET_ALL)
+
