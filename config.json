@@ -2,7 +2,7 @@
     "use_proxy": true,
     "telegram_webhook": false,
     "telegram_bot_token": "YOUR_BOT_TOKEN",
-    "timeout": 10,  // Timeout in seconds
+    "timeout": 10,
     "_comment": "Configuration file does not work for now; wait for future updates.",
     "_note": [
         "You must use proxies with authentication.",
