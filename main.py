@@ -2,17 +2,22 @@ import requests
 import time
 import json
 from threading import Thread
-from colorama import init, Fore
+from colorama import init, Fore, Style
 import logging
 from urllib.parse import urlparse
 import urllib3
+
+# Disable SSL warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-from colorama import Fore, Style
+
+# Initialize colorama
 init(autoreset=True)
 
+# API URLs
 API_URL_GET_POINTS = 'https://www.aeropres.in/api/atom/v1/userreferral/getpoint'
 API_URL_KEEP_ALIVE = 'https://www.aeropres.in/chromeapi/dawn/v1/userreward/keepalive'
 
+# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 def load_config():
@@ -54,7 +59,7 @@ def check_proxy(proxy):
             "http": proxy_url,
             "https": proxy_url,
         }
-        response = requests.get("http://ip-api.com/json", proxies=proxies, timeout=10)  # Increased timeout
+        response = requests.get("http://ip-api.com/json", proxies=proxies, timeout=5)
         if response.status_code == 200:
             logging.info(f"{get_timestamp()} | {Fore.GREEN}SUCCESS{Fore.RESET} | Proxy working: {Fore.BLUE} {proxy['ip']}:{proxy['port']} {Fore.RESET}")
             return True
@@ -149,10 +154,9 @@ def main():
     accounts = load_accounts()
     proxies = load_proxies()
     account_proxies = bind_proxy_to_accounts(accounts, proxies)
-    
     if len(account_proxies) < len(accounts):
-        logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Proceeding with bound accounts...")
-
+        logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Exiting...")
+        return
     threads = []
     for account_index, account in enumerate(accounts):
         proxy = account_proxies.get(account_index)
@@ -169,10 +173,3 @@ if __name__ == "__main__":
     print(Fore.CYAN + "| " + Fore.WHITE + "           v1.0.0                                " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/somto811                   " + Fore.CYAN + "|")
     print(Fore.CYAN + "+--------------------------------------------------+                 " + Style.RESET_ALL)
-
-    print(Fore.GREEN + "Please select an option:")
-    print("1. Start the bot")
-    print("2. Exit" + Style.RESET_ALL)
-    
-
-    choice = input
