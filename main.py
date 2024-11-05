@@ -54,7 +54,7 @@ def check_proxy(proxy):
             "http": proxy_url,
             "https": proxy_url,
         }
-        response = requests.get("http://ip-api.com/json", proxies=proxies, timeout=5)
+        response = requests.get("http://ip-api.com/json", proxies=proxies, timeout=10)  # Increased timeout
         if response.status_code == 200:
             logging.info(f"{get_timestamp()} | {Fore.GREEN}SUCCESS{Fore.RESET} | Proxy working: {Fore.BLUE} {proxy['ip']}:{proxy['port']} {Fore.RESET}")
             return True
@@ -130,7 +130,7 @@ def keep_alive(account, proxy=None, retries=3):
             logging.info(f"{get_timestamp()} | {Fore.GREEN}SUCCESS{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive recorded")
             return True
         else:
-            logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive failed on attempt {attempt + 1}. Response Code: {response.status_code if response else '502 Bad Gatwway'}")
+            logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | {account['name']} | Proxy = {proxy['ip']} | Keep alive failed on attempt {attempt + 1}. Response Code: {response.status_code if response else '502 Bad Gateway'}")
             if attempt < retries - 1:
                 time.sleep(2 ** attempt)
     return False
@@ -148,11 +148,11 @@ def main():
     config = load_config()
     accounts = load_accounts()
     proxies = load_proxies()
-    #logging.info(f"{get_timestamp()} | {Fore.YELLOW} INFO {Fore.RESET} | Total Accounts: {Fore.BLUE} {len(accounts)} {Fore.RESET} | Total Proxies: {Fore.BLUE} {len(proxies)}{Fore.RESET}")
     account_proxies = bind_proxy_to_accounts(accounts, proxies)
+    
     if len(account_proxies) < len(accounts):
-        logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Exiting...")
-        return
+        logging.error(f"{get_timestamp()} | {Fore.RED}FAIL{Fore.RESET} | Unable to bind a proxy to every account. Proceeding with bound accounts...")
+
     threads = []
     for account_index, account in enumerate(accounts):
         proxy = account_proxies.get(account_index)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     print(Fore.CYAN + "+--------------------------------------------------+")
     print(Fore.CYAN + "| " + Fore.WHITE + "   The Dawn Validator Bot                        " + Fore.CYAN + "|")
     print(Fore.CYAN + "| " + Fore.WHITE + "           v1.0.0                                " + Fore.CYAN + "|")
-    print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/MrTimonM                   " + Fore.CYAN + "|")
+    print(Fore.CYAN + "| " + Fore.WHITE + "   https://github.com/somto811                   " + Fore.CYAN + "|")
     print(Fore.CYAN + "+--------------------------------------------------+                 " + Style.RESET_ALL)
 
     print(Fore.GREEN + "Please select an option:")
@@ -175,16 +175,4 @@ if __name__ == "__main__":
     print("2. Exit" + Style.RESET_ALL)
     
 
-    choice = input("Enter your choice: ")
-    if choice == "1":
-        accounts = load_accounts()
-        proxies = load_proxies()
-        logging.info(f"{get_timestamp()} | {Fore.YELLOW} INFO {Fore.RESET} | Total Accounts: {Fore.BLUE} {len(accounts)} {Fore.RESET} | Total Proxies: {Fore.BLUE} {len(proxies)}{Fore.RESET}")
-        time.sleep(2)
-        main()
-    elif choice == "2":
-        print(Fore.YELLOW + "Exiting... Goodbye! :D" + Style.RESET_ALL)
-    else:
-        print(Fore.RED + "Invalid choice. Exiting..." + Style.RESET_ALL)
-
-
+    choice = input
