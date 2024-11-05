@@ -173,5 +173,3 @@ def main():
                     thread = Thread(target=process_account, args=(account, proxy))
                     thread.start()
                     threads.append(thread)
-            for thread in threads:
-                thread
